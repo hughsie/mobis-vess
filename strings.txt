@@ -1,0 +1,239 @@
+MainProgram.dxe
+Erase Failed
+Writing     
+Flash Failed
+Verifying   
+File ends on a data line
+File ends after data line checksum without error
+File ends on a EOF line
+File ends on an extended address line 
+File ends after extended address line without error
+File ends before datatype is defined
+[FLASH]write bit is not set
+Command Mismatching Fail
+Erasing Sector : 
+Verifying Error
+Don't know which sector will be written.
+SPI Status Error 1
+Updater[
+Goto Main.
+>>>>>
+done!
+Jul  3 2018
+11:33:54
+* SOUND DEAD !! - Updater is working  *
+* This program ERASE some BFCODE flash sectors BEFORE REBOOT *
+* This unit works with only DNW Program which sends one sector each!! *
+ HEXDOWN : Transfer *.ldr or *.HEX file to RAM
+ FWRITE  : Flash Writing by transfered file
+ GOTOMAIN : Erase Flash Sector 1 & Reset MCU -> RUN main program
+Please reset or Switch off/on
+* Finish update operation mode.  *
+Flash writing error
+<<<<< Error Occurred in Information Writing >>>>>
+Please Inform HKim.
+* CANUPDATE!! This program ERASEs some BFCODE flash sectors BEFORE REBOOT.  *
+Step 1.[BINDOWN] executed : Please wait...
+Step 2.[FWRITE] executed : Please wait...
+<<<<< Error occurred. Code value is 
+Retry Update Sequence
+Flash Writing Process Succeed[CANUPDATE_DONE].
+One sector exceeds a buffer size. Please check a update file first.
+Download error[CANUPDATE ONESECTOR]
+Relocating data : 
+ unpredicted error !!! [CANUPDATE NEXT]
+Download error[CANUPDATER]
+Choose file to be sent.
+Unknown Command
+Download Failed!
+The File size is over 0x10000. Please check the file first.
+RS-232 Transfer Complete
+<<<<< Error Occurred >>>>>
+Flash Writing Process Succeed
+This updater project was built : 
+CANUPDATE
+GOTOMAIN
+ApplCanTimerEnd
+Uf=*
+Uf="
+Uf=z8
+96390G5650
+SPI0 TX FIFO is full in SPI1_2BWrite
+SPI0 transmit indication is not set in SPI0_2BWrite
+[FLASH]write bit is not set
+SPI Status Error 1
+) : 0x
+[Error] I2C Complete Timeout_Read_0: 
+[Error] I2C FIFO Timeout_Read: 
+[Error] I2C Complete Timeout_Read_1: 
+[Error] I2C FIFO Timeout_Write: 
+[Error] I2C Complete Timeout_Write: 
+[Error] I2C Bus Busy: 
+[Error] I2C Buffer Write: 
+[Error] I2C Buffer Read: 
+[Error] I2C Data NAK: 
+[Error] I2C Address NAK: 
+[Error] I2C Lost Arbitration: 
+[Error] I2C Master Transfer in Progress: 
+Power IC Retry End
+====Power IC====
+PowerIC Register(0x
+====Power IC====
+* I2C error is occured *
+ApplCanTimerEnd
+LOGO
+HELP
+POWERIC
+VESS
+RHEOSTAT
+STATUS
+ALLFLAT
+SOUNDTEST
+SOUNDSETTING
+GOTOUPDATER
+SAVETEST
+READSETTING
+VOLUMETABLE
+VESSVOLUME
+EOLTEST
+Logo
+..\src\main.c
+Jan 14 2019
+07:54:38
+help
+Rebooting
+Read
+Read end
+writing end
+Send 0x%2X 
+1.ON, 2.OFF
+Not selected
+VESS 
+Speed %f 
+Reverse
+Forward
+PWM Control
+Rheostat %d 
+CarRdy : %d 
+fEnd[%d]: %f 
+[94m                                         ,8888oo.
+                                          Y8888888o.
+                                           Y888888888L
+                                            Y8888888888L
+                                             888888888888L
+                                             d8888888888888.
+                                             ]888888888888888.
+                                             ]888888888PP''''
+                                             ]8888888P'          .
+    ,ooooo.                                  ]88888P    ,ooooooo88b.
+   ,8888888p                                 ]8888P   ,8888888888888o
+   d88P'888[ ooo'    oooo.  _oooo.  ooo  oop ]888P    `'' ,888P8888888o
+  ,888 J88P J88P    d8P88  d88P888 ,88P,88P  `P''       ,88P' ,888888888L
+  d888o88P' 888'   ,8P,88 ,88P 88P d88b88P    __    d88888[ _o8888888P8888.
+ ,8888888. J88P    88'd8P d88  '' ,88888P    d8'   d888888888888888P   88PYb.
+ d88P 888P 888'   d8P 88[,88P ,o_ d88888.   ,8P   d8888P'  88888P'    P'   ]8b_
+,888']888'J88P   d888888 d88'J88',88Pd88b   JP   d888P     888P',op    ,   d88P
+d8888888P d88bo.,88P'Y8P 888o88P d88']88b   d'  ,8P'_odb   ''',d8P  _o8P  ,P',,d8L
+PPPPPPP' `PPPPP YPP  PPP `PPPP' <PPP `PPP  ,P   88o88888.  ,o888'  o888     d888888.
+                                           d'  d888888888888888L_o88888L_,o888888888b.
+                                          dP  d888888888888888888888888888888888888888o
+                                        dd8' ,888888888888888888888888888888888888888888L
+                                       d88P  d88888888888888888888888888888888888888888888.
+[92mFile: %s | Line: %d | Function: %s
+Build Date: %s | Build Time: %s
+[92m
+/************************************************************/
+HELP : Display command list
+POWERIC : Power amp IC control
+VESS : VESS Sound Output Control
+RHEOSTAT : VESS LED PWM Control
+STATUS : VESS Internal Status
+ALLFLAT : Flat EQ setting
+SOUNDTEST : 20km/h sound output
+SOUNDSETTING : display output sound setting
+GOTOUPDATER : goto reprogramming mode
+SAVETEST : save sound output setting to flash memory
+READSETTING : read sound output setting from flash memory
+EOLTEST : writing YYMMDD to flash memory
+Lib Version: %d 
+File: %s | Line: %d | Function: %s
+Build Date: %s | Build Time: %s
+/************************************************************/
+[97m
+>---------------------------------------------------------<
+>                                                         <
+>     VESS Firmware 
+                               <
+flash writing error
+Goto Power Off
+[94mVESS>>
+ampInfo writing test
+PowerIC Read/Write
+1. Write register 2. Read register 3. Unmute 4. Mute 5. Power limit
+6. PWM switching Freq/Dithering/Phase
+Write Register of PowerIC Finished
+Input MAX voltage scale
+1.OFF, 2.15%, 3.30%, 4.40%, 5.50%, 6.60%, 7.70%, 8.80%, ESC to exit
+Select PWM switching frequency at 48KHz
+1.336, 2.384, 3.432
+Select PWM clock dithering
+Select PWM phase
+1.In phase, 2.Out of phase
+Control Speed : '<' Decrease, '>' Increase 
+Forward/Reverse : '?' Toggle Forward/Reverse 
+Gain Slew Enable/Disable : '/' Toggle Enable/Disable 
+Speed Increment = %f
+Gain for Sound Source[%d] : 
+Gain Slew Enabled
+Gain Slew Disabled
+ > : Increase rheostat stage 
+ < : Decrease rheostat stage 
+ / : Automatic rheostat stage change
+======= CAN & I/O =======
+GarSelDisp : %d 
+WhlSpdFL_Kph : %d 
+WhlSpdFR_Kph : %d 
+PTOperModforECU : %d 
+Avail Spd : %f 
+Detentout : %d 
+RheostatLevel : %d 
+IntTailAct : %d 
+VESS Switch Input : %d 
+TCU1(gear) Input : %d 
+HEV_CP6(detent,rheo) Input : %d 
+HCU1(ready,PTmode) Input : %d 
+CGW2(tail) Input : %d 
+========== etc ==========
+VESS Switch On/Off Status: %d 
+7V Det port value: %d 
+18V Det port value: %d 
+7V Det Status: %d 
+18V Det Status: %d 
+ucLEDstep: %d 
+ucOpenLoadDetected: %d 
+ucShortLoadDetected: %d 
+ucOffsetDetected: %d 
+Updater Cnt : %d
+====== Product Info ======
+date : %02x/%02x/%02x
+Part No. : %c%c%c%c%c-%c%c%c%c%c 
+CAN DB ver : %c.%c%c 
+HW ver : %c%c.%c%c 
+======= Sound Setting =======
+fbegin[%d]: %f 
+fConstant[%d]: %f 
+bCharacter[%d]: %d 
+bReverse[%d]: %d 
+NumPoint[%d]: %d 
+UserGain / dB[%d]: %f / %f 
+UserSpeed[%d]: %f 
+Speed dependent volume off
+Sound Test 20km/h
+1. Sound Generation 2. Sound Stop
+Start Sound output
+Stop Sound output
+0123456789abcdef
+0123456789ABCDEF
+(null)
+false
+true
