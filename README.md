@@ -4,7 +4,7 @@ Mobis VESS
 Introduction
 ------------
 
-The VESS is the Virtual Engine Sound System found in many KIA and Byundai
+The VESS is the Virtual Engine Sound System found in many KIA and Hyundai
 branded vehicles. A system like VESS has been required by law for electric
 vehicles (EVs) since 2020 by EU law.
 
@@ -53,25 +53,58 @@ Removing the conformal coating was really *fun*.
 
 Notable components:
 
-U101
-----
-
-`MX25L3235E`, 32Mbit flash chip.
-
-U105
-----
-
-`FSA 803`, 1x45W class D amplifier.
-
 U100
 ----
 
 Analog `BF706CCPZ`, 400MHz 1Mb SRAM DSP.
 
+U101
+----
+
+Macronix `MX25L3235E`, 32Mbit flash chip.
+
 U102
 ----
 
 NXP A42/3C,`TJA1042` CAN transceiver.
+
+U103
+----
+
+JRC `NJU7291` system reset IC with watchdog timer.
+
+U105
+----
+
+ST `FDA803D`, 1x45W class D amplifier.
+
+U106
+----
+
+Unlabelled 5V power regulator, for audio?
+
+- 05 → filtered 12V in?
+- 04 → unknown
+- 03 → `GND`
+- 02 → unknown
+- 01 → U102:VCC
+
+U109
+----
+
+Unknown, marked `11S XAG`, 3V3 MCU power regulator
+
+- 01 → 4K6 resistor then `STB`
+- 04 → `U102:VCC`
+- 06 → `U102:SPLIT`
+
+U110
+----
+
+Unknown, marked `D41 X03`, 5V CAN power regulator. Note: this seems to be power phased from U109.
+
+- 01 → `CN100:1` i.e. `VDD_EXT`
+- 04 → `U102:VCC`
 
 CN100
 -----
@@ -80,17 +113,17 @@ Similar to `SHR-12V-S-B`, used as debug port *presumably* for factory
 programming.
 
  - 01, `VDD_EXT`
- - 02, `R317` -> `SYS_HWRST`
- - 03, `R117` -> `PB_09` -> `UART0_RX`
- - 04, `R116` -> `PB_08` -> `UART0_TX`
+ - 02, `R317` → `SYS_HWRST`
+ - 03, `R117` → `PB_09` → `UART0_RX`
+ - 04, `R116` → `PB_08` → `UART0_TX`
  - 05, `JTG_TDO_SWO`
  - 06, `JTG_TCK_SWCLK`
  - 07, `JTG_TDI`
  - 08, `JTG_TMS_SWDIO`
  - 09, `JTG_TRST`
  - 10, `GND`
- - 11, *Unknown*
- - 12, *Unknown*
+ - 11, `WDEN` [10K to GND]
+ - 12, `nc`
 
 SW100
 -----
@@ -100,35 +133,23 @@ Connected to `SYS_HWRST` which triggers a CPU reset.
 CN103
 -----
 
-This is supposed to be:
+    4  3  2 [1]
+    8  7  6  5
 
 - 01, `Battery+`
-- 02, `IG1`
-- 03, `nc`
-- 04, `P-CAN High`
+- 02, `IG1` → `D101` → MOSFET
+- 03, `SWI` → Schottky diode (protected input?)
+- 04, `P-CAN High` → `U102:7`
 - 05, `GND`
 - 06, `GND`
-- 07, `nc`
-- 08, `P-CAN Low`
-
-But in reality it's actually:
-
-    4  3  2 [1]
-    5  6  7  8
-
-- 1 `Battery+`
-- 2 ??
-- 3 `CAN ??`
-- 4 `CAN ??`
-- 5 ??
-- 6 ??
-- 7 `GND`
-- 8 `GND`
+- 07, `IND` → `R194` (460R)
+- 08, `P-CAN Low` → `U102:6`
 
 TTY
 ===
 
-Connecting a 3.3v RS-232 adaptor to `UART0_RX` and `UART0_TX` gives a repeated:
+Connecting a 3.3v RS-232 adaptor to `UART0_RX` and `UART0_TX` at 115200 baud
+gives a repeated:
 
     >---------------------------------------------------------<
     >                                                         <
@@ -136,8 +157,15 @@ Connecting a 3.3v RS-232 adaptor to `UART0_RX` and `UART0_TX` gives a repeated:
     >                                                         <
     >---------------------------------------------------------<
 
-...and this loops forever, so I assumw the CPU is resetting on some kind of
-watchdog...
+...and this loops forever, unless `WDEN` is pulled to MCU VCC (3V3).
+
+Powering the module using `Battery+` gives the same output, but also pushing
+`IGN` up to 12V the additional prompt appears:
+
+    [1m[94mVESS>>[0m
+    [1m[94mVESS>>[0m>-----
+
+However, TTY input seems to be ignored for some reason.
 
 Flash
 =====
@@ -151,3 +179,5 @@ ASCII strings are [here](strings.txt), some of which look super interesting.
     --------------------------------------------------------------------------------
     467552        0x72260         Microsoft executable, MS-DOS
 
+There is raw audio data in the flash from 0x100000 which is similar to what is found in the Ioniq.
+To hear it, load into Audacity as "raw data" as 1-channel, signed 16 bit PCM.
