@@ -24,7 +24,7 @@ A nice future roadmap might be to control the volume and change the sound:
 CAN
 ---
 
-We know the device broadcasts using CID: 0x5E3 (1507d), with an 8 * 0x00 
+We know the device broadcasts using CID: 0x5E3 (1507d), with an 8 * 0x00
 broadcast data.
 
 Many thanks to [Eric Reuter](https://www.youtube.com/watch?v=OLT1aKdpYhs) with
@@ -109,7 +109,7 @@ Unknown, marked `D41 X03`, 5V CAN power regulator. Note: this seems to be power 
 CN100
 -----
 
-Similar to `SHR-12V-S-B`, used as debug port *presumably* for factory
+1.27mm socket, similar to `SHR-12V-S-B`, used as debug port *presumably* for factory
 programming.
 
  - 01, `VDD_EXT`
@@ -162,10 +162,333 @@ gives a repeated:
 Powering the module using `Battery+` gives the same output, but also pushing
 `IGN` up to 12V the additional prompt appears:
 
-    [1m[94mVESS>>[0m
-    [1m[94mVESS>>[0m>-----
+    $ tio /dev/ttyUSB0
 
-However, TTY input seems to be ignored for some reason.
+    >---------------------------------------------------------<
+    >                                                         <
+    >     VESS Firmware 88.0201                               <
+    >                                                         <
+    >---------------------------------------------------------<
+    VESS>>
+
+HELP
+----
+
+    /************************************************************/
+    HELP : Display command list
+    POWERIC : Power amp IC control
+    VESS : VESS Sound Output Control
+    RHEOSTAT : VESS LED PWM Control
+    STATUS : VESS Internal Status
+    ALLFLAT : Flat EQ setting
+    SOUNDTEST : 20km/h sound output
+    SOUNDSETTING : display output sound setting
+    GOTOUPDATER : goto reprogramming mode
+    SAVETEST : save sound output setting to flash memory
+    READSETTING : read sound output setting from flash memory
+    EOLTEST : writing YYMMDD to flash memory
+    Lib Version: 2
+    File: ..\src\main.c | Line: 106 | Function: help
+    Build Date: Jan 14 2019 | Build Time: 07:54:38
+    /************************************************************/
+
+STATUS
+------
+
+    ======= CAN & I/O =======
+    CarRdy : 0
+    GarSelDisp : 0
+    WhlSpdFL_Kph : 0
+    WhlSpdFR_Kph : 0
+    PTOperModforECU : 7
+    Avail Spd : 200.000000
+    Detentout : 0
+    RheostatLevel : 0
+    IntTailAct : 0
+    VESS Switch Input : 1
+    TCU1(gear) Input : 0
+    HEV_CP6(detent,rheo) Input : 0
+    HCU1(ready,PTmode) Input : 0
+    CGW2(tail) Input : 0
+
+    ========== etc ==========
+    VESS Switch On/Off Status: 1
+    7V Det port value: 1
+    18V Det port value: 1
+    7V Det Status: 0
+    18V Det Status: 0
+    ucLEDstep: 20
+    ucOpenLoadDetected: 1
+    ucShortLoadDetected: 0
+    ucOffsetDetected: 0
+    Updater Cnt : 65535
+
+    ====== Product Info ======
+    date : 2019/08/31
+    Part No. : 96390-G5650
+    CAN DB ver : 0.40
+    HW ver : 01.01
+
+POWERIC
+-------
+
+    PowerIC Read/Write
+    1. Write register 2. Read register 3. Unmute 4. Mute 5. Power limit
+    6. PWM switching Freq/Dithering/Phase
+
+    2
+
+    ====Power IC====
+
+    PowerIC Register(0x00) : 0x00
+    PowerIC Register(0x01) : 0x41
+    PowerIC Register(0x02) : 0x00
+    PowerIC Register(0x03) : 0x1B
+    PowerIC Register(0x04) : 0x00
+    PowerIC Register(0x05) : 0x00
+    PowerIC Register(0x06) : 0x80
+    PowerIC Register(0x07) : 0x00
+    PowerIC Register(0x08) : 0x21
+    PowerIC Register(0x09) : 0x00
+    PowerIC Register(0x0A) : 0x40
+    PowerIC Register(0x0B) : 0x00
+    PowerIC Register(0x0C) : 0x00
+    PowerIC Register(0x0D) : 0x00
+    PowerIC Register(0x0E) : 0x07
+
+    ====Power IC====
+    PowerIC Register(0x20) : 0x00
+    PowerIC Register(0x21) : 0x08
+    PowerIC Register(0x22) : 0x01
+
+    5
+
+    Input MAX voltage scale
+    1.OFF, 2.15%, 3.30%, 4.40%, 5.50%, 6.60%, 7.70%, 8.80%, ESC to exit
+
+    6
+
+    Select PWM switching frequency at 48KHz
+    1.336, 2.384, 3.432
+
+    Select PWM clock dithering
+    1.ON, 2.OFF
+
+    Not selected
+
+    Select PWM phase
+    1.In phase, 2.Out of phase
+
+    Not selected
+
+Note, PowerIC Register(0x22) changes from 0x0 when muted to 0x01 when unmuted.
+
+VESS
+----
+
+    /************************************************************/
+    VESS
+    Control Speed : '<' Decrease, '>' Increase
+    Forward/Reverse : '?' Toggle Forward/Reverse
+    Gain Slew Enable/Disable : '/' Toggle Enable/Disable
+    /************************************************************/
+
+RHEOSTAT
+--------
+
+    PWM Control
+     > : Increase rheostat stage
+     < : Decrease rheostat stage
+     / : Automatic rheostat stage change
+
+
+ALLFLAT
+-------
+
+    Speed dependent volume off
+
+SOUNDTEST
+---------
+
+    Sound Test 20km/h
+    1. Sound Generation 2. Sound Stop
+
+    1
+
+    Start Sound output
+
+    2
+
+    Stop Sound output
+
+SOUNDSETTING
+------------
+
+    ======= Sound Setting =======
+
+    fbegin[0]: 0.000000
+    fEnd[0]: 15.000000
+    fConstant[0]: 0.249870
+    bCharacter[0]: 0
+    bReverse[0]: 0
+    NumPoint[0]: 7
+    UserGain / dB[0]: 1.000000 / 31.000000
+    UserSpeed[0]: 0.101563
+    UserGain / dB[1]: 1.000000 / 25.000000
+    UserSpeed[1]: 2.500000
+    UserGain / dB[2]: 1.000000 / 19.000000
+    UserSpeed[2]: 5.000000
+    UserGain / dB[3]: 1.000000 / 19.000000
+    UserSpeed[3]: 7.500000
+    UserGain / dB[4]: 1.000000 / 19.000000
+    UserSpeed[4]: 10.000000
+    UserGain / dB[5]: 1.000000 / 19.000000
+    UserSpeed[5]: 12.500000
+    UserGain / dB[6]: 1.000000 / 0.000000
+    UserSpeed[6]: 15.000000
+
+    fbegin[1]: 10.000000
+    fEnd[1]: 25.000000
+    fConstant[1]: 0.249870
+    bCharacter[1]: 0
+    bReverse[1]: 0
+    NumPoint[1]: 7
+    UserGain / dB[0]: 1.000000 / 0.000000
+    UserSpeed[0]: 10.000000
+    UserGain / dB[1]: 1.000000 / 15.000000
+    UserSpeed[1]: 12.500000
+    UserGain / dB[2]: 1.000000 / 11.000000
+    UserSpeed[2]: 15.000000
+    UserGain / dB[3]: 1.000000 / 11.000000
+    UserSpeed[3]: 17.500000
+    UserGain / dB[4]: 1.000000 / 11.000000
+    UserSpeed[4]: 20.000000
+    UserGain / dB[5]: 1.000000 / 15.000000
+    UserSpeed[5]: 22.500000
+    UserGain / dB[6]: 1.000000 / 0.000000
+    UserSpeed[6]: 25.000000
+
+    fbegin[2]: 20.000000
+    fEnd[2]: 35.000000
+    fConstant[2]: 0.249991
+    bCharacter[2]: 0
+    bReverse[2]: 0
+    NumPoint[2]: 7
+    UserGain / dB[0]: 1.000000 / 0.000000
+    UserSpeed[0]: 20.000000
+    UserGain / dB[1]: 1.000000 / 0.000000
+    UserSpeed[1]: 22.500000
+    UserGain / dB[2]: 1.000000 / 0.000000
+    UserSpeed[2]: 25.000000
+    UserGain / dB[3]: 1.000000 / 0.000000
+    UserSpeed[3]: 27.500000
+    UserGain / dB[4]: 1.000000 / 0.000000
+    UserSpeed[4]: 30.000000
+    UserGain / dB[5]: 1.000000 / 0.000000
+    UserSpeed[5]: 32.500000
+    UserGain / dB[6]: 1.000000 / 0.000000
+    UserSpeed[6]: 35.000000
+
+    fbegin[3]: 0.000000
+    fEnd[3]: 35.000000
+    fConstant[3]: 0.583327
+    bCharacter[3]: 1
+    bReverse[3]: 0
+    NumPoint[3]: 15
+    UserGain / dB[0]: 1.000000 / 36.000000
+    UserSpeed[0]: 0.000000
+    UserGain / dB[1]: 1.000000 / 34.000000
+    UserSpeed[1]: 2.500000
+    UserGain / dB[2]: 1.000000 / 30.000000
+    UserSpeed[2]: 5.000000
+    UserGain / dB[3]: 1.000000 / 28.000000
+    UserSpeed[3]: 7.500000
+    UserGain / dB[4]: 1.000000 / 26.000000
+    UserSpeed[4]: 10.000000
+    UserGain / dB[5]: 1.000000 / 26.000000
+    UserSpeed[5]: 12.500000
+    UserGain / dB[6]: 1.000000 / 26.000000
+    UserSpeed[6]: 15.000000
+    UserGain / dB[7]: 1.000000 / 25.000000
+    UserSpeed[7]: 17.500000
+    UserGain / dB[8]: 1.000000 / 25.000000
+    UserSpeed[8]: 20.000000
+    UserGain / dB[9]: 1.000000 / 31.000000
+    UserSpeed[9]: 22.500000
+    UserGain / dB[10]: 1.000000 / 0.000000
+    UserSpeed[10]: 25.000000
+    UserGain / dB[11]: 1.000000 / 0.000000
+    UserSpeed[11]: 27.500000
+    UserGain / dB[12]: 1.000000 / 0.000000
+    UserSpeed[12]: 30.000000
+    UserGain / dB[13]: 1.000000 / 0.000000
+    UserSpeed[13]: 32.500000
+    UserGain / dB[14]: 1.000000 / 0.000000
+    UserSpeed[14]: 35.000000
+
+    fbegin[4]: 0.000000
+    fEnd[4]: 35.000000
+    fConstant[4]: 0.583327
+    bCharacter[4]: 1
+    bReverse[4]: 0
+    NumPoint[4]: 15
+    UserGain / dB[0]: 1.000000 / 35.000000
+    UserSpeed[0]: 0.101563
+    UserGain / dB[1]: 1.000000 / 33.000000
+    UserSpeed[1]: 2.500000
+    UserGain / dB[2]: 1.000000 / 31.000000
+    UserSpeed[2]: 5.000000
+    UserGain / dB[3]: 1.000000 / 29.000000
+    UserSpeed[3]: 7.500000
+    UserGain / dB[4]: 1.000000 / 27.000000
+    UserSpeed[4]: 10.000000
+    UserGain / dB[5]: 1.000000 / 26.000000
+    UserSpeed[5]: 12.500000
+    UserGain / dB[6]: 1.000000 / 25.000000
+    UserSpeed[6]: 15.000000
+    UserGain / dB[7]: 1.000000 / 24.000000
+    UserSpeed[7]: 17.500000
+    UserGain / dB[8]: 1.000000 / 23.000000
+    UserSpeed[8]: 20.000000
+    UserGain / dB[9]: 1.000000 / 27.000000
+    UserSpeed[9]: 22.500000
+    UserGain / dB[10]: 1.000000 / 0.000000
+    UserSpeed[10]: 25.000000
+    UserGain / dB[11]: 1.000000 / 0.000000
+    UserSpeed[11]: 27.500000
+    UserGain / dB[12]: 1.000000 / 0.000000
+    UserSpeed[12]: 30.000000
+    UserGain / dB[13]: 1.000000 / 0.000000
+    UserSpeed[13]: 32.500000
+    UserGain / dB[14]: 1.000000 / 0.000000
+    UserSpeed[14]: 35.000000
+
+    fbegin[5]: 0.000000
+    fEnd[5]: 0.000000
+    fConstant[5]: 0.000000
+    bCharacter[5]: 0
+    bReverse[5]: 1
+    NumPoint[5]: 7
+    UserGain / dB[0]: 1.000000 / 12.000000
+    UserSpeed[0]: 0.000000
+    UserGain / dB[1]: 1.000000 / 10.000000
+    UserSpeed[1]: 35.000000
+    UserGain / dB[2]: 1.000000 / 10.000000
+    UserSpeed[2]: 100.000000
+    UserGain / dB[3]: 1.000000 / 0.000000
+    UserSpeed[3]: 0.000000
+    UserGain / dB[4]: 1.000000 / 0.000000
+    UserSpeed[4]: 0.000000
+    UserGain / dB[5]: 1.000000 / 0.000000
+    UserSpeed[5]: 0.000000
+    UserGain / dB[6]: 1.000000 / 0.000000
+    UserSpeed[6]: 0.000000
+
+READSETTING
+-----------
+
+    Read
+    Read end
 
 Flash
 =====
