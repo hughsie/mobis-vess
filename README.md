@@ -37,6 +37,14 @@ Maybe using ISO-TP for multiple data packets?
  - Speed - `0x524` (1316d)
  - Gear - `0x200` (512d)
 
+Notes
+-----
+
+Using RS485 CAN HAT:
+
+    sudo ip link set can0 type can bitrate 500000 restart-ms 100
+    sudo ip link set up can0
+
 PCB
 ===
 
