@@ -498,6 +498,36 @@ READSETTING
     Read
     Read end
 
+LOGO
+----
+
+                                             ,8888oo.
+                                              Y8888888o.
+                                               Y888888888L
+                                                Y8888888888L
+                                                 888888888888L
+                                                 d8888888888888.
+                                                 ]888888888888888.
+                                                 ]888888888PP''''
+                                                 ]8888888P'          .
+        ,ooooo.                                  ]88888P    ,ooooooo88b.
+       ,8888888p                                 ]8888P   ,8888888888888o
+       d88P'888[ ooo'    oooo.  _oooo.  ooo  oop ]888P    `'' ,888P8888888o
+      ,888 J88P J88P    d8P88  d88P888 ,88P,88P  `P''       ,88P' ,888888888L
+      d888o88P' 888'   ,8P,88 ,88P 88P d88b88P    __    d88888[ _o8888888P8888.
+     ,8888888. J88P    88'd8P d88  '' ,88888P    d8'   d888888888888888P   88PYb.
+     d88P 888P 888'   d8P 88[,88P ,o_ d88888.   ,8P   d8888P'  88888P'    P'   ]8b_
+    ,888']888'J88P   d888888 d88'J88',88Pd88b   JP   d888P     888P',op    ,   d88P
+    d8888888P d88bo.,88P'Y8P 888o88P d88']88b   d'  ,8P'_odb   ''',d8P  _o8P  ,P',,d8L
+    PPPPPPP' `PPPPP YPP  PPP `PPPP' <PPP `PPP  ,P   88o88888.  ,o888'  o888     d888888.
+                                               d'  d888888888888888L_o88888L_,o888888888b.
+                                              dP  d888888888888888888888888888888888888888o
+                                            dd8' ,888888888888888888888888888888888888888888L
+                                           d88P  d88888888888888888888888888888888888888888888.
+
+    File: ..\src\main.c | Line: 82 | Function: Logo
+    Build Date: Jan 14 2019 | Build Time: 07:54:38
+
 Flash
 =====
 
@@ -512,3 +542,17 @@ ASCII strings are [here](strings.txt), some of which look super interesting.
 
 There is raw audio data in the flash from 0x100000 which is similar to what is found in the Ioniq.
 To hear it, load into Audacity as "raw data" as 1-channel, signed 16 bit PCM.
+
+Decompiling
+-----------
+
+Although the ADSP chip is a BF70x, and I attempted to reverse engineer the bytecode with Ghidra:
+
+* Install javac using `sudo dnf install java-11-openjdk-devel`
+* Download ghidra_10.0.4_PUBLIC
+* Download gradle 7.3.3
+* Clone https://github.com/sualk/ghidra-blackfin
+* Build the extension `GHIDRA_INSTALL_DIR=ghidra_10.0.4_PUBLIC ./gradle-7.3.3/bin/gradle`
+
+Then install the extension in Ghidra and restart it. Then import `backup.bin`. Then we get junk, as
+we're trying to decompile bytecode for the BF52x...
